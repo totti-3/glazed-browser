@@ -67,7 +67,7 @@ Inspired by modern UI design, minimalism, and the freedom to experiment, Glazed 
 
 1. Head to the [Releases](https://github.com/totti-3/glazed-browser/releases/tag/Stable-Release) page.
 2. Download the latest available Source Code.
-3. Follow the release-specific installation instructions.<
+3. Follow the release-specific installation instructions.
 
 ---
 
