@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Can't reach this page</title>
+<style>
+:root{--bg:#0d0c11;--surface:#15141a;--text:#eceaf2;--dim:#8f8b9e;--accent:#9b87d9;--accent-text:#0d0c11;--border:#26242f}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:radial-gradient(800px 420px at 50% -10%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 70%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:560px;margin:0 auto;padding:14vh 24px 0}
+.face{font:300 13px Georgia,serif;letter-spacing:.6em;text-transform:uppercase;color:var(--dim)}
+h1{font:400 32px Georgia,'Palatino Linotype',serif;letter-spacing:-.01em;margin:28px 0 10px}
+p{color:var(--dim);margin:6px 0}
+code{background:var(--surface);border:1px solid var(--border);padding:2px 8px;border-radius:8px;color:var(--text);word-break:break-all}
+button{margin-top:26px;border:0;background:var(--text);color:var(--bg);font:inherit;font-weight:500;padding:10px 22px;border-radius:8px;cursor:pointer}
+button:hover{opacity:.86}
+ul{color:var(--dim);padding-left:20px}
+</style></head>
+<body><main>
+<div class="face">Glazed</div>
+<h1 id="title">This page can’t be reached</h1>
+<p><code id="url"></code></p>
+<p id="desc"></p>
+<ul><li>Check your internet connection</li><li>Check the address for typos</li><li>Check proxy, VPN or firewall settings</li></ul>
+<button id="retry">Try again</button>
+</main>
+<script>
+(function(){
+  let D = {};
+  try { D = JSON.parse(decodeURIComponent(location.hash.slice(1))); } catch (e) {}
+  const t = D.theme || {}, r = document.documentElement.style;
+  ['bg','surface','text','dim','accent','border'].forEach(k => t[k] && r.setProperty('--' + k, t[k]));
+  if (t.accentText) r.setProperty('--accent-text', t.accentText);
+  document.getElementById('url').textContent = D.url || '';
+  document.getElementById('desc').textContent = (D.desc || 'Unknown error').replace(/^ERR_/, '').replace(/_/g, ' ').toLowerCase() + (D.code ? ' (' + D.code + ')' : '');
+  document.getElementById('retry').onclick = () => { if (D.url) location.href = D.url; else history.back(); };
+})();
+</script></body></html>

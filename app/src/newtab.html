@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>New Tab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bg:#0d0c11;--surface:#15141a;--surface2:#1e1c25;--text:#eceaf2;--dim:#8f8b9e;--accent:#9b87d9;--accent-text:#0d0c11;--accent-soft:#2b2740;--border:#26242f;--radius:8px;
+--serif:"New York","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font:14px/1.4 "SF Pro Text",-apple-system,"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;color:var(--text);background:var(--bg);overflow:hidden;-webkit-font-smoothing:antialiased}
+#wall{position:fixed;inset:-40px;background:radial-gradient(900px 520px at 50% -8%,color-mix(in srgb,var(--accent) 11%,transparent),transparent 70%),var(--bg);background-size:cover;background-position:center}
+#wall.img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.45))}
+main{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mark{font:400 13px var(--serif);letter-spacing:.62em;text-transform:uppercase;color:var(--dim);padding-left:.62em}
+.rule{width:28px;height:1px;background:color-mix(in srgb,var(--text) 22%,transparent);margin:26px 0 30px}
+#clock{font-weight:200;font-size:92px;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+#greet{font:italic 400 19px var(--serif);color:var(--dim);margin-top:14px;letter-spacing:.01em}
+form{width:min(560px,88vw);margin-top:46px}
+input{width:100%;height:50px;border-radius:12px;border:1px solid color-mix(in srgb,var(--text) 10%,transparent);background:color-mix(in srgb,var(--text) 4%,transparent);backdrop-filter:blur(14px);color:var(--text);font:inherit;font-size:15px;padding:0 20px;outline:0;transition:border-color .25s,background .25s,box-shadow .25s}
+input::placeholder{color:var(--dim)}
+input:hover{border-color:color-mix(in srgb,var(--text) 18%,transparent)}
+input:focus{border-color:color-mix(in srgb,var(--accent) 70%,transparent);background:color-mix(in srgb,var(--text) 6%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 13%,transparent)}
+#dial{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 10px;width:min(720px,92vw);margin-top:52px}
+#dial a{display:flex;flex-direction:column;align-items:center;gap:10px;width:92px;color:var(--dim);text-decoration:none;padding:12px 0;border-radius:14px;transition:color .2s,background .2s}
+#dial a:hover{color:var(--text);background:color-mix(in srgb,var(--text) 5%,transparent)}
+#dial i{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font:300 22px var(--serif);font-style:normal;color:var(--text);background:color-mix(in srgb,var(--text) 5%,transparent);border:1px solid color-mix(in srgb,var(--text) 9%,transparent);transition:border-color .2s,transform .2s}
+#dial a:hover i{border-color:color-mix(in srgb,var(--text) 24%,transparent);transform:translateY(-2px)}
+#dial span{font-size:12px;max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.01em}
+#priv{display:none;margin-bottom:22px;padding:5px 14px;border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);color:var(--accent);border-radius:99px;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+</style></head>
+<body><div id="wall"></div>
+<main>
+  <div id="priv">Private</div>
+  <div class="mark">Glazed</div>
+  <div class="rule"></div>
+  <div id="clock"></div><div id="greet"></div>
+  <form id="f"><input id="q" type="text" autocomplete="off" spellcheck="false" autofocus></form>
+  <div id="dial"></div>
+</main>
+<script src="shared.js"></script>
+<script>
+(function(){
+  'use strict';
+  const S = window.GlazedShared;
+  let D = {};
+  try { D = JSON.parse(decodeURIComponent(location.hash.slice(1))); } catch (e) {}
+  const $ = s => document.querySelector(s);
+  function paint() {
+    const t = D.theme || {}, r = document.documentElement.style;
+    ['bg','surface','surface2','text','dim','accent','border'].forEach(k => t[k] && r.setProperty('--' + k, t[k]));
+    r.colorScheme = t.dark === false ? 'light' : 'dark';
+    const w = $('#wall');
+    w.style.backgroundImage = D.wallpaper ? 'url("' + String(D.wallpaper).replace(/"/g, '%22') + '")' : '';
+    w.classList.toggle('img', !!D.wallpaper);
+    w.style.filter = D.blur ? 'blur(' + D.blur + 'px)' : '';
+    $('#q').placeholder = 'Search ' + (D.engineName || 'the web') + ' or enter an address';
+    $('#priv').style.display = D.private ? 'inline-block' : 'none';
+    $('#clock').style.display = D.clock === false ? 'none' : '';
+    $('#greet').style.display = D.greeting === false ? 'none' : '';
+    const dial = $('#dial'); dial.replaceChildren();
+    (D.dial || []).forEach(d => {
+      const a = document.createElement('a'); a.href = d.url;
+      const host = S.hostOf(d.url) || '?';
+      const i = document.createElement('i'); i.textContent = (d.name || host)[0].toUpperCase();
+      const s = document.createElement('span'); s.textContent = d.name || host;
+      a.append(i, s); dial.append(a);
+    });
+    tick();
+  }
+  function tick() {
+    const n = new Date();
+    $('#clock').textContent = n.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    const hr = n.getHours();
+    const g = hr < 5 ? 'Good night' : hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+    $('#greet').textContent = g + (D.name ? ', ' + D.name : '');
+  }
+  setInterval(tick, 10000);
+  $('#f').addEventListener('submit', e => {
+    e.preventDefault();
+    const url = S.resolveInput($('#q').value, D.cfg || S.DEFAULT_SETTINGS);
+    if (url && url !== 'glazed://newtab') location.href = url;
+  });
+  window.__glazedUpdate = d => { D = d; paint(); };
+  paint();
+})();
+</script></body></html>
