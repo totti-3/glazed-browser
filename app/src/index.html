@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https: http: file: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-src *; child-src *">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glazed</title>
+<link rel="stylesheet" href="styles.css">
+<style id="custom-ui-css"></style>
+</head>
+<body>
+<div id="app">
+  <div id="titlebar">
+    <button id="sidebar-toggle" class="icon-btn" title="Toggle vertical tabs"></button>
+    <div id="tabs-host-h"><div id="tabs" role="tablist"></div></div>
+    <button id="new-tab-btn" class="icon-btn" title="New tab"></button>
+    <div id="drag-space"></div>
+    <div id="private-badge" hidden>Private</div>
+  </div>
+
+  <div id="toolbar">
+    <button id="btn-back" class="icon-btn" title="Back"></button>
+    <button id="btn-forward" class="icon-btn" title="Forward"></button>
+    <button id="btn-reload" class="icon-btn" title="Reload"></button>
+    <button id="btn-home" class="icon-btn" title="Home"></button>
+    <div id="omnibox">
+      <span id="site-badge" title="Site information"></span>
+      <input id="url" type="text" spellcheck="false" autocomplete="off" placeholder="Search or enter address">
+      <button id="zoom-chip" class="chip" hidden title="Reset zoom"></button>
+      <button id="btn-shield" class="icon-btn small" title="Shield"></button>
+      <button id="btn-star" class="icon-btn small" title="Bookmark this page"></button>
+      <div id="suggestions" hidden></div>
+    </div>
+    <button id="btn-ext" class="icon-btn" title="Extensions"></button>
+    <button id="btn-palette" class="icon-btn" title="Command palette"></button>
+    <button id="btn-downloads" class="icon-btn" title="Downloads"></button>
+    <button id="btn-menu" class="icon-btn" title="Menu"></button>
+  </div>
+
+  <div id="bookmarkbar"></div>
+
+  <div id="findbar" hidden>
+    <input id="find-input" type="text" placeholder="Find in page" spellcheck="false">
+    <span id="find-count"></span>
+    <button id="find-prev" class="icon-btn small" title="Previous"></button>
+    <button id="find-next" class="icon-btn small" title="Next"></button>
+    <label class="mini"><input type="checkbox" id="find-case"> Aa</label>
+    <button id="find-close" class="icon-btn small" title="Close"></button>
+  </div>
+
+  <div id="main">
+    <aside id="sidebar"><div id="tabs-host-v"></div></aside>
+    <div id="views"></div>
+    <aside id="panel" hidden>
+      <header><h2 id="panel-title"></h2><div id="panel-actions"></div><button id="panel-close" class="icon-btn small"></button></header>
+      <div id="panel-body"></div>
+    </aside>
+  </div>
+</div>
+
+<div id="popover-layer"></div>
+<div id="toasts"></div>
+
+<div id="palette" hidden>
+  <div class="palette-box">
+    <input id="palette-input" type="text" placeholder="Type a command, tab, bookmark or search…  (@ tabs · > commands · # bookmarks · ! history)" spellcheck="false">
+    <div id="palette-list"></div>
+  </div>
+</div>
+
+<div id="settings" hidden>
+  <div class="settings-box">
+    <nav id="settings-nav"></nav>
+    <section id="settings-content"></section>
+    <button id="settings-close" class="icon-btn"></button>
+  </div>
+</div>
+
+<div id="dialog-layer" hidden></div>
+
+<script src="shared.js"></script>
+<script src="icons.js"></script>
+<script src="settings-ui.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
