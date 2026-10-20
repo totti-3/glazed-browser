@@ -1,0 +1,10 @@
+#!/bin/sh
+RT=/opt/glazed/runtime
+if [ ! -x "$RT/glazed" ]; then
+  echo "Glazed runtime is missing (download failed during installation?)." >&2
+  echo "Run once:  sudo /opt/glazed/fetch-runtime.sh" >&2
+  exit 1
+fi
+EXTRA=""
+[ -u "$RT/chrome-sandbox" ] || EXTRA="--no-sandbox"
+exec "$RT/glazed" $EXTRA "$@"

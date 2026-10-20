@@ -1,0 +1,7 @@
+How Glazed-Setup.msi is built (Linux/macOS, needs Go 1.24+ and Python 3):
+  1. cd launcher && GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -H=windowsgui" -o ../setup/launcher.exe .
+  2. zip the app folder contents (main.js ext.js preload.js package.json src assets) to setup/app.zip
+  3. cd setup && GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -H=windowsgui" -o ../glazed-setup.exe .
+  4. python3 build_glazed_msi.py 1.3.1 glazed-setup.exe Glazed-Setup.msi
+
+Icons: python3 mksyso.py launcher/rsrc_windows_amd64.syso icons/16.png icons/32.png icons/48.png icons/256.png (copy the .syso into setup/ as well); setup patches the icon of Glazed.exe at install time (patch.go).
