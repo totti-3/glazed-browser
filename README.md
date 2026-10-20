@@ -45,13 +45,9 @@ Inspired by modern UI design, minimalism, and the freedom to experiment, Glazed 
 
 ## 📸 Preview
 
-> Screenshots coming soon.
+[Glazed Browser](previews/screenshot1.png)
 
-<!-- Replace this placeholder with screenshots of Glazed when available. -->
-
-<!--
-![Glazed Browser](assets/preview.png)
--->
+[Glazed Browser Settings](previews/screenshot2.png)
 
 ---
 
